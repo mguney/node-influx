@@ -4,12 +4,15 @@
 
 import {RequestOptions} from 'https';
 import * as url from 'url';
-
+import axios from "axios";
+import * as querystring from 'querystring';
 import * as b from './builder';
 import * as grammar from './grammar';
 import {IPingStats, IPoolOptions, Pool} from './pool';
 import {assertNoErrors, IResults, parse, parseSingle} from './results';
 import {coerceBadly, ISchemaOptions, Schema} from './schema';
+
+
 
 const defaultHost: IHostConfig = Object.freeze({
 	host: '127.0.0.1',
@@ -1241,16 +1244,11 @@ export class InfluxDB {
 			}
 		});
 
-		return this._pool.discard({
-			body: payload,
-			method: 'POST',
-			path: '/write',
-			query: {db: database,
-				p: this._options.password,
-				precision,
-				rp: retentionPolicy,
-				u: this._options.username}
-		});
+		const host = this._pool._getHost();
+		let path = host.url.pathname === "/" ? "" : host.url.pathname;
+		path += "/write";
+		path += "?" + querystring.stringify({ db: database, p: this._options.password, precision, rp: retentionPolicy, u: this._options.username });
+		return axios.post(path, payload);
 	}
 
 	/**

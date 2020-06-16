@@ -430,7 +430,7 @@ export class Pool {
    * Returns the next available host for querying.
    * @return {Host}
    */
-	private _getHost(): Host {
+	public _getHost(): Host {
 		const available = setToArray(this._hostsAvailable);
 		const host = available[this._index];
 		this._index = (this._index + 1) % available.length;
