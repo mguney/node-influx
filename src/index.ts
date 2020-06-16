@@ -1245,8 +1245,8 @@ export class InfluxDB {
 		});
 
 		const host = this._pool._getHost();
-		let path = host.url.pathname === "/" ? "" : host.url.pathname;
-		path += "/write";
+		let path = host.url.href;
+		path += "write";
 		path += "?" + querystring.stringify({ db: database, p: this._options.password, precision, rp: retentionPolicy, u: this._options.username });
 		return axios.post(path, payload);
 	}

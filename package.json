@@ -1,6 +1,6 @@
 {
 	"name": "influx-axios",
-	"version": "0.0.1",
+	"version": "0.0.4",
 	"description": "InfluxDB Client",
 	"main": "./lib/src/index.js",
 	"typings": "./lib/src/index",
